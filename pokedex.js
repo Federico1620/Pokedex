@@ -21,12 +21,16 @@ async function renderCard() {
       button.innerText = "Info";
       button.addEventListener("click", async () => {
         try {
+          
           const result = await fetch(card.url);
           const data = await result.json();
           const src = data.sprites.front_default;
           const img = document.createElement("img");
           const popup = document.createElement("div");
           const buttonX = document.createElement("button");
+          const paragrafo = document.createElement("p")
+          
+          paragrafo.innerText = data.abilities.map(abilita => abilita.ability.name).join(" ")
           buttonX.innerText = "X";
           buttonX.addEventListener("click", () => {
             document.body.removeChild(popup);
@@ -34,6 +38,7 @@ async function renderCard() {
           popup.classList.add("popup");
           img.src = src;
           popup.appendChild(img);
+          popup.appendChild(paragrafo)
           popup.appendChild(buttonX);
           document.body.appendChild(popup);
         } catch (error) {
@@ -41,8 +46,10 @@ async function renderCard() {
         }
       });
       div.appendChild(h6);
+    
       div.appendChild(button);
       document.body.appendChild(div);
+
     });
   } catch (error) {
     console.log(error);
